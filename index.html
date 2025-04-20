@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkillSwap India</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 10px 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .search-section {
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+    }
+
+    body.dark {
+      background-color: #121212;
+      color: white;
+    }
+
+    .dark .card {
+      background-color: #1e1e1e;
+      color: white;
+      border: 1px solid #333;
+    }
+
+    .toggle-container {
+      position: absolute;
+      top: 20px;
+      right: 70px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <script>
+    // 🔐 Redirect if user not logged in
+    if (!localStorage.getItem('token')) {
+      alert("Please login first.");
+      window.location.href = 'login.html';
+    }
+
+    function logout() {
+      localStorage.clear();
+      alert("Logged out successfully!");
+      window.location.href = 'login.html';
+    }
+
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      const welcome = document.createElement('p');
+      welcome.textContent = `Welcome, ${user.name}!`;
+      welcome.style.position = 'absolute';
+      welcome.style.top = '20px';
+      welcome.style.left = '20px';
+      document.body.appendChild(welcome);
+    }
+  </script>
+
+  <div class="container">
+
+    <!-- Home Section -->
+    <div id="home">
+      <h1>SkillSwap India 🇮🇳</h1>
+      <p>Exchange skills with others & learn for free!</p>
+      <button onclick="goToForm()">Get Started</button>
+
+      <!-- 🔍 Search Skill Bar -->
+      <div class="search-section">
+        <h3>Search Skill Buddies</h3>
+        <input type="text" id="search-skill" placeholder="Type a skill to find people who can teach it" />
+        <button onclick="handleSearch()">Search</button>
+      </div>
+    </div>
+
+    <!-- Profile Form -->
+    <div id="form-section" class="hidden">
+      <h2>Create Your Skill Profile</h2>
+      <form onsubmit="handleSubmit(event)">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="text" id="city" placeholder="City" required />
+        <input type="text" id="teach" placeholder="Skills You Can Teach" required />
+        <input type="text" id="learn" placeholder="Skills You Want to Learn" required />
+        <input type="email" id="email" placeholder="Your Email" required />
+        <textarea id="story" placeholder="Tell us your skill story (optional)" rows="4" style="width: 100%; border-radius: 8px; padding: 10px;"></textarea>
+        <select id="mode">
+          <option value="online">Online</option>
+          <option value="offline">Offline</option>
+          <option value="both">Both</option>
+        </select>
+        <button type="submit">Find Matches</button>
+        <button onclick="logout()" style="position: absolute; top: 20px; right: 20px;">Logout</button>
+      </form>
+    </div>
+
+    <h3>💬 Share Your Experience</h3>
+  <form onsubmit="submitTestimonial(event)">
+  <input type="text" id="t-name" placeholder="Your Name" required />
+  <textarea id="t-message" placeholder="Write something..." required></textarea>
+  <button type="submit">Submit</button>
+</form>
+
+<h2>User Testimonials</h2>
+<div id="testimonials"></div>
+
+    <!-- Match Section -->
+    <div id="match-section" class="hidden"></div>
+
+  </div>
+
+  <!-- ✅ External JS file link -->
+  <script src="script.js"></script>
+
+  <div class="toggle-container">
+    <label>
+      <input type="checkbox" id="themeToggle" onchange="toggleTheme()"/>
+      Dark Mode
+    </label>
+  </div>
+
+  <h3>Incoming Requests</h3>
+<div id="incoming-requests"></div>
+  
+</body>
+</html>
